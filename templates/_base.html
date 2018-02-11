@@ -25,7 +25,7 @@
             <li class="navbar-text">
                 |
                 {% if current_user.is_authenticated %}
-                Hello {{ current_user.name }}! <a href="/logout">LOGOUT</a>
+                Hello {{ current_user.email }}! <a href="/logout">LOGOUT</a>
                 {% else %}
                 Hello stranger!
             </li>
