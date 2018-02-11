@@ -18,7 +18,7 @@ def register():
     if request.method == 'GET':
         return render_template('register.html')
     if not request.form['email'] or not request.form['password'] :
-        flash('Please enter all the fields', 'error')
+        flash('Please enter all the fields', 'danger')
     else:
         email = request.form['email']
         password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
@@ -26,7 +26,7 @@ def register():
         user = User(email=email, password=password)
         db.session.add(user)
         db.session.commit()
-        flash('User successfully registered')
+        flash('User successfully registered', 'success')
         return redirect(url_for('login'))
 
 
