@@ -41,7 +41,9 @@ def login():
         if current_user.is_authenticated:
             return redirect(url_for('info'))
         return render_template('login.html')
-
+    if not request.form['email'] or not request.form['password'] :
+        flash('Please fill in all the fields', 'danger')
+        return redirect(url_for('login'))
     form_email = request.form['email']
     form_pass = request.form['password']
     db_user = User.query.filter_by(email=form_email.lower()).first()
