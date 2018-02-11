@@ -56,6 +56,12 @@ def logout():
     logout_user()
     flash('Logged out successfully.', 'success')
     return redirect(url_for('info'))
+
+@app.route('/secret', methods=['GET'])
+@login_required
+def secret():
+    return render_template('secret.html')
+
 @lm.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
