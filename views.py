@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from flask import request, redirect, flash, url_for, render_template
-from main import app
-from main import db
+from main import app, db
 from main import bcrypt
 from main import lm
 from models import User
 from flask_login import current_user, login_user, logout_user, login_required
-
+from forms import RegistrationForm
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
@@ -16,23 +15,23 @@ def info():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    form = RegistrationForm(request.form)
     if request.method == 'GET':
-        return render_template('register.html')
-    if not request.form['email'] or not request.form['password'] :
-        flash('Please fill in all the fields', 'danger')
-        return redirect(url_for('register'))
-    else:
-        email = request.form['email']
-        db_user = User.query.filter_by(email=request.form['email']).count()
+        return render_template('register.html', form=form)
+    if form.validate():
+        email = form.email.data
+        db_user = User.query.filter_by(email=email).count()
         if db_user != 0:
             flash('User is already registered', 'danger')
             return redirect(url_for('login'))
-        password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+        password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(email=email, password=password)
         db.session.add(user)
         db.session.commit()
         flash('User successfully registered', 'success')
         return redirect(url_for('login'))
+    flash('There are some problems here', 'danger')
+    return render_template('register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
