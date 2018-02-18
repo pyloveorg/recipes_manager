@@ -1,7 +1,6 @@
 __author__ = 'Piotr Dyba'
 
 from flask_login import UserMixin
-from main import lm
 
 from sqlalchemy import Column
 from sqlalchemy.types import Integer
