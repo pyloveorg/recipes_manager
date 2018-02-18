@@ -2,10 +2,8 @@ __author__ = 'Piotr Dyba'
 
 from flask_login import UserMixin
 
-from sqlalchemy import Column
-from sqlalchemy.types import Integer
-from sqlalchemy.types import String
-from sqlalchemy.types import Boolean
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.types import Integer, String, Boolean
 
 from main import db
 
@@ -32,3 +30,16 @@ class User(db.Model, UserMixin):
         Returns if user is admin.
         """
         return self.admin
+
+class Recipe(db.Model):
+    """
+    Recipe Model
+    """
+    __tablename__ = 'recipe'
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    is_public = Column(Boolean, default=True)
+    title = Column(String(250), default='')
+    time_needed = Column(Integer(5), default='')
+    ingredients = Column(String(1000), default='')
+    steps = Column(String(5000), default='')
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
