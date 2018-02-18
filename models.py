@@ -39,7 +39,7 @@ class Recipe(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     is_public = Column(Boolean, default=True)
     title = Column(String(250), default='')
-    time_needed = Column(Integer(5), default='')
+    time_needed = Column(Integer, default=15)
     ingredients = Column(String(1000), default='')
     steps = Column(String(5000), default='')
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
