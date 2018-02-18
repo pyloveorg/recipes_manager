@@ -1,14 +1,14 @@
 {% extends "_base.html" %}
 
-{% set page_id = 'register' %}
+{% set page_id = 'login' %}
 
 {% block content %}
   <div class="row">
     <div class="col-2"></div>
 
     <div class="col-8">
-      <h3>Register</h3>
-      <form action="/register" method="post">
+      <h3>Login</h3>
+      <form action="/login" method="post">
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="text" name="email" class="form-control"><br />
@@ -17,7 +17,7 @@
           <label for="password">Password:</label>
           <input type="password" name="password" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Login</button>
     </form>
     </div>
 
