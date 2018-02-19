@@ -10,7 +10,6 @@ def db_start():
     db.create_all()
     db.session.commit()
     user = models.User()
-    user.username = "ania"
     user.password = bcrypt.generate_password_hash('password').decode('utf-8')
 
     user.email = 'amm.nowak@gmail.com'
@@ -18,7 +17,6 @@ def db_start():
     user.poweruser = True
     db.session.add(user)
     db.session.commit()
-
 
 
 if __name__ == '__main__':
