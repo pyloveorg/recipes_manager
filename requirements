@@ -14,7 +14,6 @@ blinker
 cffi
 itsdangerous
 pycparser
-python-bcrypt
 pytz
 six
 wtforms_html5
