@@ -6,7 +6,7 @@ from main import bcrypt
 from main import lm
 from models import User
 from flask_login import current_user, login_user, logout_user, login_required
-from forms import RegistrationForm
+from forms import RegistrationForm, LoginForm
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
@@ -36,23 +36,24 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    form = LoginForm(request.form)
     if request.method == 'GET':
         if current_user.is_authenticated:
             return redirect(url_for('info'))
-        return render_template('login.html')
-    if not request.form['email'] or not request.form['password'] :
-        flash('Please fill in all the fields', 'danger')
-        return redirect(url_for('login'))
-    form_email = request.form['email']
-    form_pass = request.form['password']
-    db_user = User.query.filter_by(email=form_email.lower()).first()
-    if db_user is None or not bcrypt.check_password_hash(db_user.password, form_pass):
-        flash('Invalid username or password', 'danger')
-        return redirect(url_for('login'))
-    login_user(db_user)
-    flash('Logged in successfully.', 'success')
-    app.logger.debug('Logged in user %s', db_user.email)
-    return redirect(url_for('info'))
+        return render_template('login.html', form=form)
+    if form.validate():
+        form_email = form.email.data
+        form_pass = form.password.data
+        db_user = User.query.filter_by(email=form_email.lower()).first()
+        if db_user is None or not bcrypt.check_password_hash(db_user.password, form_pass):
+            flash('Invalid username or password. Try again?', 'danger')
+            return redirect(url_for('login'))
+        login_user(db_user)
+        flash('Logged in successfully.', 'success')
+        app.logger.debug('Logged in user %s', db_user.email)
+        return redirect(url_for('info'))
+    flash('Please fill in all the fields', 'danger')
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')
