@@ -3,7 +3,7 @@ __author__ = 'Piotr Dyba'
 from flask_login import UserMixin
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import Integer, String, Boolean
+from sqlalchemy.types import Integer, String, Boolean, JSON
 
 from main import db
 
@@ -37,9 +37,9 @@ class Recipe(db.Model):
     """
     __tablename__ = 'recipe'
     id = Column(Integer, autoincrement=True, primary_key=True)
-    is_public = Column(Boolean, default=True)
     title = Column(String(250), default='')
     time_needed = Column(Integer, default=15)
-    ingredients = Column(String(1000), default='')
+    ingredients = Column(JSON, default='')
     steps = Column(String(5000), default='')
+    is_public = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
