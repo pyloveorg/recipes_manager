@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, PasswordField, validators
+from wtforms import Form, StringField, IntegerField, PasswordField, RadioField, validators
 
 class RegistrationForm(Form):
     email = StringField('Email Address', [validators.Email(message="Email is not valid"), validators.InputRequired(message="Cannot be empty")])
@@ -12,3 +12,10 @@ class RegistrationForm(Form):
 class LoginForm(Form):
     email = StringField('Email Address', [validators.InputRequired(message="Cannot be empty")])
     password = PasswordField('Password', [validators.InputRequired(message="Cannot be empty")])
+
+class RecipeForm(Form):
+    title = StringField('Title', [validators.InputRequired(message="Cannot be empty")])
+    time_needed = IntegerField('Time needed (min)', [validators.InputRequired(message="Cannot be empty")])
+    ingredients = StringField('Ingredients', [validators.InputRequired(message="Cannot be empty")])
+    steps = StringField('Steps', [validators.InputRequired(message="Cannot be empty")])
+    is_public = RadioField('Status', choices=[('Public', 'Public'), ('Private', 'Private')], default='Public')
