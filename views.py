@@ -17,7 +17,7 @@ def info():
 def register():
     form = RegistrationForm(request.form)
     if request.method == 'GET':
-        return render_template('register.html', form=form)
+        return render_template('accounts/register.html', form=form)
     if form.validate():
         email = form.email.data
         db_user = User.query.filter_by(email=email).count()
@@ -31,7 +31,7 @@ def register():
         flash('User successfully registered', 'success')
         return redirect(url_for('login'))
     flash('There are some problems here', 'danger')
-    return render_template('register.html', form=form)
+    return render_template('accounts/register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -40,7 +40,7 @@ def login():
     if request.method == 'GET':
         if current_user.is_authenticated:
             return redirect(url_for('info'))
-        return render_template('login.html', form=form)
+        return render_template('accounts/login.html', form=form)
     if form.validate():
         form_email = form.email.data
         form_pass = form.password.data
@@ -53,7 +53,7 @@ def login():
         app.logger.debug('Logged in user %s', db_user.email)
         return redirect(url_for('info'))
     flash('Please fill in all the fields', 'danger')
-    return render_template('login.html', form=form)
+    return render_template('accounts/login.html', form=form)
 
 
 @app.route('/logout')
