@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "_base.html" %}
 
-</body>
-</html>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="title col-md-3">
+            <h3>{{ recipe.title }}</h3>
+            {% if recipe.is_public == True: %}
+            Public
+            {% else: %}
+            Private
+            {% endif %}
+        </div>
+    </div>
+    <div class="row author">
+        <div class="author col-md-3">
+            By {{ recipe.user_id.email }}
+        </div>
+    </div>
+    <div class="row time_needed">
+        <div class="time col-md-3">
+            Time needed: ({{ recipe.time_needed }} minutes)
+        </div>
+    </div>
+    <div class="row content">
+        <div class="ingredients col-md-5">
+            <h4>Ingredients</h4>
+            {{ recipe.ingredients }}
+        </div>
+        <div class="steps col-md-5">
+            <h4>Steps</h4>
+            {{ recipe.steps }}
+        </div>
+    </div>
+</div>
+{% endblock %}
