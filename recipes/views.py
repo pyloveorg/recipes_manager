@@ -26,7 +26,7 @@ def new_recipe():
             ingredients=form.ingredients.data,
             time_needed=form.time_needed.data,
             steps=form.steps.data,
-            is_public=form.is_public.data,
+            is_public=bool(form.is_public.data),
             user_id=current_user.id)
         db.session.add(recipe)
         db.session.commit()
