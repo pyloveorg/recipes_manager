@@ -31,16 +31,16 @@ def new_recipe():
         db.session.add(recipe)
         db.session.commit()
         flash('Recipe added successfully', 'success')
-        return redirect(url_for('all_recipes'))
+        return redirect(url_for('show_recipe', recipe_id=recipe.id))
 
-    return render_template('new.html')
+    return render_template('recipes/new.html', form=form)
 
 @app.route('/recipe/<recipe_id>', methods=['GET'])
 def show_recipe(recipe_id):
     # TODO: check if the user can view this particular recipe -
     # is public or recipe.user_id=current_user.id
     recipe = Recipe.query.get(recipe_id)
-    return render_template('show.html', recipe=recipe)
+    return render_template('recipes/show.html', recipe=recipe)
 
 @app.route('/recipe/<recipe_id>/edit', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
@@ -56,7 +56,7 @@ def edit_recipe(recipe_id):
         flash('Recipe edited successfully', 'success')
         return redirect(url_for('my_recipes'))
 
-    return render_template('edit.html', recipe=recipe)
+    return render_template('recipes/edit.html', form=form, recipe=recipe)
 
 @app.route('/recipe/<recipe_id>/delete', methods=['GET', 'POST'])
 def delete_recipe(recipe_id):
