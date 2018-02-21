@@ -3,6 +3,8 @@ __author__ = 'Piotr Dyba'
 from flask_login import UserMixin
 
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+
 from sqlalchemy.types import Integer, String, Boolean, JSON
 
 from main import db
@@ -18,6 +20,7 @@ class User(db.Model, UserMixin):
     email = Column(String(200), unique=True)
     password = Column(String(200), default='')
     admin = Column(Boolean, default=False)
+    recipes = relationship('Recipe', backref='user', lazy=True)
 
     def is_active(self):
         """
