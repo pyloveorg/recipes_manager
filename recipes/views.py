@@ -6,10 +6,10 @@ from models import Recipe
 from flask_login import current_user,  login_required
 from forms import RecipeForm
 
-@app.route('/', methods=['GET'])
+@app.route('/all_recipes', methods=['GET'])
 def all_recipes():
-    # TODO: only public ones!
-    return render_template('recipes/all_recipes.html')
+    recipes = Recipe.query.filter_by(is_public=True).order_by(Recipe.id.desc()).all()
+    return render_template('recipes/all_recipes.html', recipes=recipes)
 
 @app.route('/my_recipes', methods=['GET'])
 @login_required
