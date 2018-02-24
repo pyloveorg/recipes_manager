@@ -18,6 +18,7 @@ def my_recipes():
     return render_template('recipes/my_recipes.html', recipes=recipes)
 
 @app.route('/new_recipe', methods=['GET', 'POST'])
+@login_required
 def new_recipe():
     form = RecipeForm(request.form)
     if request.method == 'POST':
@@ -43,6 +44,7 @@ def show_recipe(recipe_id):
     return render_template('recipes/show.html', recipe=recipe)
 
 @app.route('/recipe/<recipe_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_recipe(recipe_id):
     form = RecipeForm(request.form)
     recipe = Recipe.query.filter_by(id=recipe_id).first_or_404()
@@ -59,6 +61,7 @@ def edit_recipe(recipe_id):
     return render_template('recipes/edit.html', form=form, recipe=recipe)
 
 @app.route('/recipe/<recipe_id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_recipe(recipe_id):
     # TODO: add a check for recipe.user_id = current_user.id
     recipe = Recipe.query.filter_by(id=recipe_id).first_or_404()
