@@ -14,8 +14,8 @@ def all_recipes():
 @app.route('/my_recipes', methods=['GET'])
 @login_required
 def my_recipes():
-    # TODO: all recipes from current user
-    return render_template('recipes/my_recipes.html')
+    recipes = Recipe.query.filter_by(user=current_user).order_by(Recipe.id.desc()).all()
+    return render_template('recipes/my_recipes.html', recipes=recipes)
 
 @app.route('/new_recipe', methods=['GET', 'POST'])
 def new_recipe():
