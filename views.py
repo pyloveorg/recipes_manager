@@ -51,7 +51,7 @@ def login():
         login_user(db_user)
         flash('Logged in successfully.', 'success')
         app.logger.debug('Logged in user %s', db_user.email)
-        return redirect(url_for('info'))
+        return redirect(url_for('all_recipes'))
     flash('Please fill in all the fields', 'danger')
     return render_template('accounts/login.html', form=form)
 
