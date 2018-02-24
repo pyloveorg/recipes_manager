@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "_base.html" %}
 
-</body>
-</html>
+{% set page_id = 'my_recipes' %}
+
+{% block content %}
+<h1>Recipes</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Private/Public</th>
+      <th scope="col">Author</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for recipe in recipes %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>{{ recipe.title }}</td>
+      <td>
+          {% if recipe.is_public == True: %}
+          Public
+          {% else: %}
+          Private
+          {% endif %}
+      </td>
+      <td>{{ recipe.user.email }}</td>
+      <td>
+          <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">Show</a> |
+          <a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">Edit</a> |
+          <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}" >Delete</a></p>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
