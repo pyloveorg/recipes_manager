@@ -3,7 +3,7 @@
 {% set page_id = 'my_recipes' %}
 
 {% block content %}
-<h1>Recipes</h1>
+<h1>My Recipes</h1>
 
 <table class="table table-hover">
   <thead>
@@ -16,7 +16,15 @@
     </tr>
   </thead>
   <tbody>
+    {% if recipes == None %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>No recipes yet.
+      </td>
+    </tr>
+    {% endif %}
     {% for recipe in recipes %}
+
     <tr>
       <th scope="row">{{ loop.index }}</th>
       <td>{{ recipe.title }}</td>
