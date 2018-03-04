@@ -18,4 +18,5 @@ class RecipeForm(Form):
     time_needed = IntegerField('Time needed (min)', [validators.InputRequired(message="Cannot be empty")])
     ingredients = TextAreaField('Ingredients', [validators.InputRequired(message="Cannot be empty")])
     steps = TextAreaField('Steps', [validators.InputRequired(message="Cannot be empty")])
-    is_public = RadioField('Status', choices=[(True, 'Public'), (False, 'Private')], default=True)
+    # False has to be an empty string, because in Python a string is always true.
+    is_public = RadioField('Status', choices=[(True, 'Public'), ('', 'Private')], default=True)

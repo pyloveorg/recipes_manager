@@ -57,11 +57,13 @@ def edit_recipe(recipe_id):
         db.session.commit()
         flash('Recipe edited successfully', 'success')
         return redirect(url_for('my_recipes'))
-
+    # This below is because of boolean vs string conversion. By default, values for radio buttons are strings.
+    # If recipe was private, it was '' converted to boolean, but False cannot be converted to ''.
+    if recipe.is_public == False:
+        form.is_public.default = ''
+        form.process()
     # I need to set the values for ingredients and steps, because they're from textarea, and that
     # doesn't support value for field.
-    form.is_public.default = recipe.is_public
-    form.process()
     form.ingredients.data = recipe.ingredients
     form.steps.data = recipe.steps
     return render_template('recipes/edit.html', form=form, recipe=recipe)
