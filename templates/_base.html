@@ -20,13 +20,24 @@
             <li class="nav-item{% if page_id == 'info' %} active{% endif %}">
                 <a class="nav-link" href="{{ url_for('info') }}">Info</a>
             </li>
-            {% if current_user.is_authenticated %}
-            <li class="nav-item{% if page_id == 'secret' %} active{% endif %}">
-                <a class="nav-link" href="{{ url_for('secret') }}">Secret</a>
+
+            <li class="nav-item{% if page_id == 'all_recipes' %} active{% endif %}">
+                <a class="nav-link" href="{{ url_for('all_recipes') }}">All Recipes</a>
             </li>
+
+            {% if current_user.is_authenticated %}
+            <li class="nav-item{% if page_id == 'new_recipe' %} active{% endif %}">
+                <a class="nav-link" href="{{ url_for('new_recipe') }}">New Recipe</a>
+            </li>
+
             {% endif %}
         </ul>
         <ul class="navbar-nav">
+            {% if current_user.is_authenticated %}
+            <li class="nav-item{% if page_id == 'my_recipes' %} active{% endif %}">
+                <a class="nav-link" href="{{ url_for('my_recipes') }}">My Recipes</a>
+            </li>
+            {% endif %}
             <li class="navbar-text">
                 |
                 {% if current_user.is_authenticated %}

@@ -1,0 +1,49 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'edit_recipe' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-2"></div>
+
+    <div class="col-8">
+      <h3>Edit recipe</h3>
+
+      <form action="{{ url_for('edit_recipe', recipe_id=recipe.id) }}" method="post">
+        <div class="form-group">
+          <div>{{ form.title.label }}: {{ form.title(class="form-control", value=recipe.title) }}</div>
+          {% if form.title.errors %}
+          <ul class="errors">{% for error in form.title.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <div>{{ form.ingredients.label }}: {{ form.ingredients(class="form-control") }}</div>
+          {% if form.ingredients.errors %}
+          <ul class="errors">{% for error in form.ingredients.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <div>{{ form.time_needed.label }}: {{ form.time_needed(class="form-control", value=recipe.time_needed) }}</div>
+          {% if form.time_needed.errors %}
+          <ul class="errors">{% for error in form.time_needed.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <div>{{ form.steps.label }}: {{ form.steps(class="form-control") }}</div>
+          {% if form.steps.errors %}
+          <ul class="errors">{% for error in form.steps.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <div>{{ form.is_public.label }}: {{ form.is_public(class="form-control", value=recipe.is_public) }}</div><br />
+          {% if form.is_public.errors %}
+          <ul class="errors">{% for error in form.is_public.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+
+    <div class="col-2"></div>
+</div>
+{% endblock %}

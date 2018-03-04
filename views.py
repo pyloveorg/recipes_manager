@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from flask import request, redirect, flash, url_for, render_template
-from main import app
-from main import db
+from main import app, db
 from main import bcrypt
 from main import lm
 from models import User
 from flask_login import current_user, login_user, logout_user, login_required
-
+from forms import RegistrationForm, LoginForm
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
@@ -16,44 +15,45 @@ def info():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    form = RegistrationForm(request.form)
     if request.method == 'GET':
-        return render_template('register.html')
-    if not request.form['email'] or not request.form['password'] :
-        flash('Please fill in all the fields', 'danger')
-        return redirect(url_for('register'))
-    else:
-        email = request.form['email']
-        db_user = User.query.filter_by(email=request.form['email']).count()
+        return render_template('accounts/register.html', form=form)
+    if form.validate():
+        email = form.email.data
+        db_user = User.query.filter_by(email=email).count()
         if db_user != 0:
             flash('User is already registered', 'danger')
             return redirect(url_for('login'))
-        password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+        password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(email=email, password=password)
         db.session.add(user)
         db.session.commit()
         flash('User successfully registered', 'success')
         return redirect(url_for('login'))
+    flash('There are some problems here', 'danger')
+    return render_template('accounts/register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    form = LoginForm(request.form)
     if request.method == 'GET':
         if current_user.is_authenticated:
             return redirect(url_for('info'))
-        return render_template('login.html')
-    if not request.form['email'] or not request.form['password'] :
-        flash('Please fill in all the fields', 'danger')
-        return redirect(url_for('login'))
-    form_email = request.form['email']
-    form_pass = request.form['password']
-    db_user = User.query.filter_by(email=form_email.lower()).first()
-    if db_user is None or not bcrypt.check_password_hash(db_user.password, form_pass):
-        flash('Invalid username or password', 'danger')
-        return redirect(url_for('login'))
-    login_user(db_user)
-    flash('Logged in successfully.', 'success')
-    app.logger.debug('Logged in user %s', db_user.email)
-    return redirect(url_for('info'))
+        return render_template('accounts/login.html', form=form)
+    if form.validate():
+        form_email = form.email.data
+        form_pass = form.password.data
+        db_user = User.query.filter_by(email=form_email.lower()).first()
+        if db_user is None or not bcrypt.check_password_hash(db_user.password, form_pass):
+            flash('Invalid username or password. Try again?', 'danger')
+            return redirect(url_for('login'))
+        login_user(db_user)
+        flash('Logged in successfully.', 'success')
+        app.logger.debug('Logged in user %s', db_user.email)
+        return redirect(url_for('all_recipes'))
+    flash('Please fill in all the fields', 'danger')
+    return render_template('accounts/login.html', form=form)
 
 
 @app.route('/logout')
