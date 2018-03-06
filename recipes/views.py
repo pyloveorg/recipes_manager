@@ -75,5 +75,5 @@ def delete_recipe(recipe_id):
     recipe = Recipe.query.filter_by(id=recipe_id).first_or_404()
     db.session.delete(recipe)
     db.session.commit()
-    flash('Deleted post successfully', 'success')
+    flash('Deleted recipe successfully', 'success')
     return redirect(url_for('my_recipes'))
