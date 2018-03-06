@@ -10,7 +10,7 @@ from forms import RegistrationForm, LoginForm
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
-    return render_template('info.html')
+    return redirect(url_for('all_recipes'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
