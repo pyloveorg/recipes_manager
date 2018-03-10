@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
     password = Column(String(200), default='')
     admin = Column(Boolean, default=False)
     recipes = relationship('Recipe', backref='user', lazy=True)
+    votes = relationship('Votes', backref='user', lazy=True)
 
     def is_active(self):
         """
@@ -47,3 +48,20 @@ class Recipe(db.Model):
     steps = Column(String(5000), default='')
     is_public = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    votes = relationship('Votes', backref='recipe', lazy=True)
+
+class Votes(db.Model):
+    """
+    Votes Model
+    """
+    __tablename__ = 'votes'
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    value = Column(Integer)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    recipe_id = Column(Integer, ForeignKey('recipe.id'), nullable=False)
+
+
+
+
+
+
