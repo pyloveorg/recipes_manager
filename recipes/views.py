@@ -2,7 +2,7 @@
 # encoding: utf-8
 from flask import request, redirect, flash, url_for, render_template
 from main import app, db
-from models import Recipe
+from models import Recipe, Vote
 from flask_login import current_user,  login_required
 from forms import RecipeForm
 
@@ -77,3 +77,33 @@ def delete_recipe(recipe_id):
     db.session.commit()
     flash('Deleted recipe successfully', 'success')
     return redirect(url_for('my_recipes'))
+
+@app.route('/vote', methods=['POST'])
+@login_required
+def vote():
+    if request.method == 'POST':
+        vote = Vote.query.filter_by(
+            recipe_id=request.form['recipe_id'],
+            user_id=current_user.id
+        ).first()
+        if vote:
+            vote.value = request.form['value']
+        else:
+            vote = Vote(
+                value=request.form['value'],
+                user_id=current_user.id,
+                recipe_id=request.form['recipe_id'])
+        db.session.add(vote)
+        db.session.commit()
+        recipe = Recipe.query.filter_by(id=request.form['recipe_id']).first()
+        recipe.calculate_average()
+        db.session.add(recipe)
+        db.session.commit()
+
+
+        flash('Vote added successfully', 'success')
+        return redirect(url_for('all_recipes'))
+
+
+
+

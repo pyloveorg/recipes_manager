@@ -5,7 +5,7 @@ from flask_login import UserMixin
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
-from sqlalchemy.types import Integer, String, Boolean, JSON
+from sqlalchemy.types import Integer, String, Boolean, JSON, Float
 
 from main import db
 
@@ -20,8 +20,8 @@ class User(db.Model, UserMixin):
     email = Column(String(200), unique=True)
     password = Column(String(200), default='')
     admin = Column(Boolean, default=False)
-    recipes = relationship('Recipe', backref='user', lazy=True)
-    votes = relationship('Votes', backref='user', lazy=True)
+    recipes = relationship('Recipe', backref='user', cascade='delete', lazy=True)
+    votes = relationship('Vote', backref='user', cascade='delete', lazy=True)
 
     def is_active(self):
         """
@@ -48,17 +48,25 @@ class Recipe(db.Model):
     steps = Column(String(5000), default='')
     is_public = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    votes = relationship('Votes', backref='recipe', lazy=True)
+    votes = relationship('Vote', backref='recipe', cascade='delete', lazy=True)
+    average_score = Column(Float)
 
-class Votes(db.Model):
+    def calculate_average(self):
+        values = [vote.value for vote in self.votes]
+        self.average_score = sum(values) / len(values)
+
+
+class Vote(db.Model):
     """
-    Votes Model
+    Vote Model
     """
     __tablename__ = 'votes'
     id = Column(Integer, autoincrement=True, primary_key=True)
     value = Column(Integer)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     recipe_id = Column(Integer, ForeignKey('recipe.id'), nullable=False)
+
+
 
 
 

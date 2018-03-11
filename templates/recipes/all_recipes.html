@@ -10,9 +10,10 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Title</th>
+      <th scope="col">Average score</th>
       <th scope="col">Private/Public</th>
       <th scope="col">Author</th>
-      <th scope="col">Actions</th>
+      <th scope="col">Actions</th> 
     </tr>
   </thead>
   <tbody>
@@ -20,21 +21,32 @@
     <tr>
       <th scope="row">{{ loop.index }}</th>
       <td>{{ recipe.title }}</td>
+      <td>{{ recipe.average_score }}</td>
       <td>
-          {% if recipe.is_public == True: %}
-          Public
-          {% else: %}
-          Private
-          {% endif %}
+        {% if recipe.is_public == True: %}
+        Public
+        {% else: %}
+        Private
+        {% endif %}
       </td>
       <td>{{ recipe.user.email }}</td>
       <td>
-          <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">Show</a>
-          {% if recipe.user == current_user %} |
-
-          <a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">Edit</a> |
-          <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}" >Delete</a></p>
-          {% endif %}
+      {% if current_user.is_authenticated and recipe.user != current_user %}
+        <form action="/vote" method="POST">
+          <input type="hidden" name="recipe_id" value={{ recipe.id }}>	
+          <input type="radio" name="value" value=1> 1
+          <input type="radio" name="value" value=2> 2
+          <input type="radio" name="value" value=3> 3
+          <input type="radio" name="value" value=4> 4
+          <input type="radio" name="value" value=5> 5
+          <button type="submit">Vote</button>
+        </form>
+      {% endif %}
+        <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">Show</a>
+        {% if recipe.user == current_user %} |
+        <a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">Edit</a> |
+        <a href="{{ url_for('delete_recipe', recipe_id=recipe.id) }}" >Delete</a>
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

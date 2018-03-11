@@ -31,7 +31,8 @@ def db_start():
         time_needed=15,
         steps="some steps",
         is_public=False,
-        user_id=user.id
+        user_id=user.id,
+        average_score=None
     )
     recipe2 = models.Recipe(
         title="Public recipe user1",
@@ -39,7 +40,8 @@ def db_start():
         time_needed=15,
         steps="some steps",
         is_public=True,
-        user_id=user.id
+        user_id=user.id,
+        average_score=None
     )
     recipe3 = models.Recipe(
         title="Private recipe user2",
@@ -47,7 +49,8 @@ def db_start():
         time_needed=15,
         steps="some steps",
         is_public=False,
-        user_id=user2.id
+        user_id=user2.id,
+        average_score=None
     )
     recipe4 = models.Recipe(
         title="Public recipe user2",
@@ -55,12 +58,21 @@ def db_start():
         time_needed=15,
         steps="some steps",
         is_public=True,
-        user_id=user2.id
+        user_id=user2.id,
+        average_score=None
     )
     db.session.add(recipe)
     db.session.add(recipe2)
     db.session.add(recipe3)
     db.session.add(recipe4)
+    db.session.commit()
+
+    vote1 = models.Vote(
+        value = 1,
+        user_id = user.id,
+        recipe_id = recipe.id
+   )
+    db.session.add(vote1)
     db.session.commit()
 
 
