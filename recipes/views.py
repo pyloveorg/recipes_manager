@@ -82,6 +82,8 @@ def delete_recipe(recipe_id):
 @login_required
 def vote():
     if request.method == 'POST':
+        if not request.form['value'] and request.form['value'] not in [1, 2, 3, 4, 5]:
+            return redirect(url_for('all_recipes'))
         vote = Vote.query.filter_by(
             recipe_id=request.form['recipe_id'],
             user_id=current_user.id
@@ -93,6 +95,7 @@ def vote():
                 value=request.form['value'],
                 user_id=current_user.id,
                 recipe_id=request.form['recipe_id'])
+
         db.session.add(vote)
         db.session.commit()
         recipe = Recipe.query.filter_by(id=request.form['recipe_id']).first()
