@@ -19,4 +19,4 @@ class RecipeForm(Form):
     ingredients = TextAreaField('Ingredients', [validators.InputRequired(message="Cannot be empty")])
     steps = TextAreaField('Steps', [validators.InputRequired(message="Cannot be empty")])
     # False has to be an empty string, because in Python a string is always true.
-    is_public = RadioField('Status', choices=[(True, 'Public'), ('', 'Private')], default=True)
+    is_public = RadioField('Status', choices=[(True, 'Public'), ('', 'Private')], coerce=bool, default=True)

@@ -21,19 +21,25 @@ def my_recipes():
 @login_required
 def new_recipe():
     form = RecipeForm(request.form)
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template('recipes/new.html', form=form)
+    if form.validate():
+        # https://stackoverflow.com/questions/33429510/wtforms-selectfield-not-properly-coercing-for-booleans fuck
+        if form.is_public.data == '':
+            form.is_public.data = False
         recipe = Recipe(
             title=form.title.data,
             ingredients=form.ingredients.data,
             time_needed=form.time_needed.data,
             steps=form.steps.data,
-            is_public=bool(form.is_public.data),
+            is_public=form.is_public.data,
             user_id=current_user.id)
         db.session.add(recipe)
         db.session.commit()
         flash('Recipe added successfully', 'success')
         return redirect(url_for('show_recipe', recipe_id=recipe.id))
 
+    flash('There are some problems here', 'danger')
     return render_template('recipes/new.html', form=form)
 
 @app.route('/recipe/<recipe_id>', methods=['GET'])
