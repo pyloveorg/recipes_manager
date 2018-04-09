@@ -2,3 +2,13 @@
    max-width: 65.5rem;
    margin: auto;
 }
+
+.vote {
+	margin: 20px 0 0 0;
+	padding: 0;
+}
+
+.vote li {
+	display: inline-block;
+	margin-right: 10px;
+}
