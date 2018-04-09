@@ -37,5 +37,12 @@
             {{ recipe.steps }}
         </div>
     </div>
+    {% if current_user.is_authenticated and recipe.user != current_user %}
+    <form action="/vote/{{recipe.id}}" method="POST">
+        {{ form.csrf_token }}
+        {{ form.value(class="vote") }} 
+        <button class="btn btn-primary btn-sm" type="submit" value="Submit">Vote</button>
+    </form>
+    {% endif %}
 </div>
 {% endblock %}
