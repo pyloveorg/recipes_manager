@@ -9,9 +9,12 @@ from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegistrationForm, LoginForm
 
 @app.route('/', methods=['GET', 'POST'])
-def info():
+def default():
     return redirect(url_for('all_recipes'))
 
+@app.route('/info', methods=['GET', 'POST'])
+def info():
+    return render_template('info.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -60,7 +63,7 @@ def login():
 def logout():
     logout_user()
     flash('Logged out successfully.', 'success')
-    return redirect(url_for('info'))
+    return redirect(url_for('all_recipes'))
 
 @app.route('/secret', methods=['GET'])
 @login_required

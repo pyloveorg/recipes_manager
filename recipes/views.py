@@ -2,14 +2,16 @@
 # encoding: utf-8
 from flask import request, redirect, flash, url_for, render_template
 from main import app, db
-from models import Recipe
+from models import Recipe, Vote
 from flask_login import current_user,  login_required
-from forms import RecipeForm
+from forms import RecipeForm, VoteForm
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
+    form = VoteForm()
     recipes = Recipe.query.filter_by(is_public=True).order_by(Recipe.id.desc()).all()
-    return render_template('recipes/all_recipes.html', recipes=recipes)
+    return render_template('recipes/all_recipes.html', recipes=recipes, form=form)
+
 
 @app.route('/my_recipes', methods=['GET'])
 @login_required
@@ -81,5 +83,35 @@ def delete_recipe(recipe_id):
     recipe = Recipe.query.filter_by(id=recipe_id).first_or_404()
     db.session.delete(recipe)
     db.session.commit()
-    flash('Deleted post successfully', 'success')
+    flash('Deleted recipe successfully', 'success')
     return redirect(url_for('my_recipes'))
+
+@app.route('/vote/<int:recipe_id>', methods=['POST'])
+@login_required
+def vote(recipe_id):
+    form = VoteForm(request.form)
+    if request.method == 'POST' and form.validate():
+        
+        vote = Vote.query.filter_by(
+            recipe_id=recipe_id,
+            user_id=current_user.id
+        ).first()
+        if vote:
+            vote.value = int(request.form['value'])
+        else:
+            vote = Vote(
+                value=int(request.form['value']),
+                user_id=current_user.id,
+                recipe_id=recipe_id)
+
+        db.session.add(vote)
+        db.session.commit()
+        recipe = Recipe.query.filter_by(id=recipe_id).first()
+        recipe.calculate_average()
+        db.session.add(recipe)
+        db.session.commit()
+
+
+        flash('Vote added successfully', 'success')
+    return redirect(url_for('all_recipes'))
+        
