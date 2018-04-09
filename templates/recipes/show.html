@@ -12,6 +12,11 @@
             {% endif %}
         </div>
     </div>
+    <div class="row score">
+        <div class="score col-md-3">
+            Average score: {{ recipe.average_score }}
+        </div>
+    </div>
     <div class="row author">
         <div class="author col-md-3">
             By {{ recipe.user.email }}
