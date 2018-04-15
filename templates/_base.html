@@ -33,6 +33,17 @@
             </li>
 
             {% endif %}
+            <li class="nav-item">
+                <form action="{{ url_for('search') }}" method="post">
+                    <div class="form-group">
+                        <div>{{ searchform.search(class="form-control") }} <button type="submit" class="btn btn-primary">Search</button></div>
+                        {% if searchform.search.errors %}
+                        <ul class="errors">{% for error in searchform.search.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                        {% endif %}
+
+                    </div>
+                </form>
+            </li>
         </ul>
         <ul class="navbar-nav">
             {% if current_user.is_authenticated %}
