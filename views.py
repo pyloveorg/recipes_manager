@@ -10,12 +10,20 @@ from forms import RegistrationForm, LoginForm
 
 @app.route('/', methods=['GET'])
 def index():
-    top_recipes = Recipe.query\
-        .filter(Recipe.is_public==True, Recipe.average_score!=None)\
-        .order_by(Recipe.average_score.desc())\
+    top_recipes = Recipe.query \
+        .filter(Recipe.is_public == True, Recipe.average_score != None) \
+        .order_by(Recipe.average_score.desc(), Recipe.title.asc()) \
+        .limit(10) \
+        .all()
+
+    top_ids = [recipe.id for recipe in top_recipes]
+
+    worst_recipes = Recipe.query\
+        .filter(Recipe.is_public==True, Recipe.average_score!=None, Recipe.id.notin_(top_ids))\
+        .order_by(Recipe.average_score.asc(), Recipe.title.asc())\
         .limit(10)\
         .all()
-    return render_template('index.html', top_recipes=top_recipes)
+    return render_template('index.html', top_recipes=top_recipes, worst_recipes=worst_recipes)
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():
