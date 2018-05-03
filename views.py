@@ -23,7 +23,13 @@ def index():
         .order_by(Recipe.average_score.asc(), Recipe.title.asc())\
         .limit(10)\
         .all()
-    return render_template('index.html', top_recipes=top_recipes, worst_recipes=worst_recipes)
+
+    latest_recipes = Recipe.query\
+        .filter(Recipe.is_public==True, Recipe.date_added!=None)\
+        .order_by(Recipe.date_added.desc(), Recipe.title.asc())\
+        .limit(10)\
+        .all()
+    return render_template('index.html', top_recipes=top_recipes, worst_recipes=worst_recipes, latest_recipes=latest_recipes)
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():

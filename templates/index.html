@@ -29,6 +29,19 @@
         <p>There are not enough recipies</p>
       {% endif %}
 
+      <h3>Latest Recipes</h3>
+      {% if latest_recipes %}
+        <ol>
+        {% for recipe in latest_recipes %}
+        <li>
+          <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a> {{ recipe.date_added.strftime('%Y-%m-%d at %H:%M') }}
+        </li>
+        {% endfor %}
+        </ol>
+      {% else: %}
+        <p>There are no timestamped recipies</p>
+      {% endif %}
+
     </div>
   </div>
 {% endblock %}
