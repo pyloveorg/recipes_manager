@@ -3,6 +3,20 @@
 {% block content %}
   <div class="row">
     <div class="col-12">
+      <h3>Top 10 Recipes</h3>
+      {% if top_recipes %}
+        <ol>
+        {% for recipe in top_recipes %}
+        <li>
+          <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a> {{ recipe.average_score }}
+        </li>
+        {% endfor %}
+        </ol>
+      {% else: %}
+        <p>There are no recipes with scores</p>
+      {% endif %}
+
+
     </div>
   </div>
 {% endblock %}

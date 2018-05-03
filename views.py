@@ -4,13 +4,18 @@ from flask import request, redirect, flash, url_for, render_template
 from main import app, db
 from main import bcrypt
 from main import lm
-from models import User
+from models import User, Recipe
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegistrationForm, LoginForm
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    top_recipes = Recipe.query\
+        .filter(Recipe.is_public==True, Recipe.average_score!=None)\
+        .order_by(Recipe.average_score.desc())\
+        .limit(10)\
+        .all()
+    return render_template('index.html', top_recipes=top_recipes)
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():
