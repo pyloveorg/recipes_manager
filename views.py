@@ -8,9 +8,9 @@ from models import User
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegistrationForm, LoginForm
 
-@app.route('/', methods=['GET', 'POST'])
-def default():
-    return redirect(url_for('all_recipes'))
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():
