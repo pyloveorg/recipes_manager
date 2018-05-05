@@ -110,6 +110,8 @@ def vote(recipe_id):
 
 
         flash('Vote added successfully', 'success')
+        return redirect(url_for('show_recipe', recipe_id=recipe_id))
+
     flash('Error: You can\'t give an empty or out of range vote', 'danger')
     return redirect(url_for('show_recipe', recipe_id=recipe_id))
         
