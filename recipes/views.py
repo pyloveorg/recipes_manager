@@ -106,14 +106,12 @@ def vote(recipe_id):
                 value=int(request.form['value']),
                 user_id=current_user.id,
                 recipe_id=recipe_id)
-
         db.session.add(vote)
         db.session.commit()
         recipe = Recipe.query.filter_by(id=recipe_id).first()
         recipe.calculate_average()
         db.session.add(recipe)
         db.session.commit()
-
 
         flash('Vote added successfully', 'success')
         return redirect(url_for('show_recipe', recipe_id=recipe_id))
@@ -128,7 +126,11 @@ def inject_searchform():
 @app.route('/search', methods=['GET','POST'])
 def search():
     searchform = SearchForm(request.form)
-    return redirect((url_for('search_results', query=searchform.search.data)))
+    # why searchform.validate() doesn't work?
+    if request.method == 'POST' and searchform.search.data:
+        return redirect((url_for('search_results', query=searchform.search.data)))
+    flash('No search results', 'info')
+    return redirect((url_for('search_results', query='no-results')))
 
 @app.route('/search_results/<query>', methods=['GET'])
 def search_results(query):

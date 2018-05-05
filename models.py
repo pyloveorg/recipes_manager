@@ -40,6 +40,8 @@ class Recipe(db.Model):
     Recipe Model
     """
     __tablename__ = 'recipe'
+    __searchable__ = ['title']
+
     id = Column(Integer, autoincrement=True, primary_key=True)
     title = Column(String(250), default='')
     time_needed = Column(Integer, default=15)

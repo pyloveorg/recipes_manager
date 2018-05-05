@@ -24,7 +24,7 @@ class RecipeForm(Form):
     is_public = RadioField('Status', choices=[(True, 'Public'), ('', 'Private')], coerce=bool, default=True)
 
 class SearchForm(Form):
-    search = StringField('')
+    search = StringField([validators.InputRequired(message="Cannot be empty")], '')
 
 class VoteForm(Form):
     value = RadioField(
