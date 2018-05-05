@@ -135,4 +135,7 @@ def search():
 @app.route('/search_results/<query>', methods=['GET'])
 def search_results(query):
     results = Recipe.query.filter(Recipe.title.contains(query))
+    if results:
+        return render_template('search.html', query=query, recipes=results)
+    flash('No search results, showing you all recipes instead', 'info')
     return render_template('search.html', query=query, recipes=results)
