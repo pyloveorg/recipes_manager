@@ -62,7 +62,7 @@ class Vote(db.Model):
     """
     __tablename__ = 'votes'
     id = Column(Integer, autoincrement=True, primary_key=True)
-    value = Column(Integer)
+    value = Column(Integer, nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     recipe_id = Column(Integer, ForeignKey('recipe.id'), nullable=False)
 

@@ -70,7 +70,7 @@ def db_start():
     vote1 = models.Vote(
         value = 1,
         user_id = user.id,
-        recipe_id = recipe.id
+        recipe_id = recipe3.id
    )
     db.session.add(vote1)
     db.session.commit()

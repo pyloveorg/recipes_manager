@@ -31,14 +31,6 @@
       </td>
       <td>{{ recipe.user.email }}</td>
       <td>
-        {% if current_user.is_authenticated and recipe.user != current_user %}
-        <form action="/vote/{{recipe.id}}" method="POST" style="display:inline-block;">
-          {{ form.csrf_token }}
-         {{ form.value(class="vote") }} 
-          <button type="submit" value="Submit">Vote</button>
-        </form>
-
-        {% endif %}
         <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">Show</a>
         {% if recipe.user == current_user %} |
         <a href="{{ url_for('edit_recipe', recipe_id=recipe.id) }}">Edit</a> |
