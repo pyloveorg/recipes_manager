@@ -8,9 +8,8 @@ from forms import RecipeForm, VoteForm, SearchForm
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
-    form = VoteForm()
     recipes = Recipe.query.filter_by(is_public=True).order_by(Recipe.id.desc()).all()
-    return render_template('recipes/all_recipes.html', recipes=recipes, form=form)
+    return render_template('recipes/all_recipes.html', recipes=recipes)
 
 
 @app.route('/my_recipes', methods=['GET'])
@@ -49,7 +48,11 @@ def show_recipe(recipe_id):
     # TODO: check if the user can view this particular recipe -
     # is public or recipe.user_id=current_user.id
     recipe = Recipe.query.get(recipe_id)
-    return render_template('recipes/show.html', recipe=recipe)
+    vote = Vote.query.filter_by(recipe_id=recipe.id, user_id=current_user.id).first()
+    form = VoteForm()
+    if vote:
+        form.value.data = str(vote.value)
+    return render_template('recipes/show.html', recipe=recipe, form=form)
 
 @app.route('/recipe/<recipe_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -113,7 +116,10 @@ def vote(recipe_id):
 
 
         flash('Vote added successfully', 'success')
-    return redirect(url_for('all_recipes'))
+        return redirect(url_for('show_recipe', recipe_id=recipe_id))
+
+    flash('Error: You can\'t give an empty or out of range vote', 'danger')
+    return redirect(url_for('show_recipe', recipe_id=recipe_id))
 
 @app.context_processor
 def inject_searchform():
