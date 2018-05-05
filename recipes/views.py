@@ -5,6 +5,7 @@ from main import app, db
 from models import Recipe, Vote
 from flask_login import current_user,  login_required
 from forms import RecipeForm, VoteForm, SearchForm
+from sqlalchemy import or_
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
@@ -134,7 +135,9 @@ def search():
 
 @app.route('/search_results/<query>', methods=['GET'])
 def search_results(query):
-    results = Recipe.query.filter(Recipe.title.contains(query))
+    results = Recipe.query\
+        .filter(or_(Recipe.is_public == True, Recipe.user == current_user))\
+        .filter(Recipe.title.contains(query))
     if results:
         return render_template('search.html', query=query, recipes=results)
     flash('No search results, showing you all recipes instead', 'info')
