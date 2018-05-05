@@ -134,5 +134,5 @@ def search():
 
 @app.route('/search_results/<query>', methods=['GET'])
 def search_results(query):
-    results = Recipe.query.all()
-    return render_template('search.html', query=query, results=results)
+    results = Recipe.query.filter(Recipe.title.contains(query))
+    return render_template('search.html', query=query, recipes=results)
