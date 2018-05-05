@@ -129,8 +129,8 @@ def search():
     # why searchform.validate() doesn't work?
     if request.method == 'POST' and searchform.search.data:
         return redirect((url_for('search_results', query=searchform.search.data)))
-    flash('No search results', 'info')
-    return redirect((url_for('search_results', query='no-results')))
+    flash('No search results, showing you all recipes instead', 'info')
+    return redirect((url_for('all_recipes')))
 
 @app.route('/search_results/<query>', methods=['GET'])
 def search_results(query):
