@@ -15,6 +15,15 @@ class LoginForm(Form):
     email = StringField('Email Address', [validators.InputRequired(message="Cannot be empty")])
     password = PasswordField('Password', [validators.InputRequired(message="Cannot be empty")])
 
+class EditProfileForm(Form):
+    current_password = PasswordField('Current password', [validators.InputRequired(message="Cannot be empty")])
+    new_password = PasswordField('New password', [
+        validators.Length(min=8, message='Password too short'),
+        validators.InputRequired(message="Cannot be empty"),
+        validators.EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Confirm new password')
+
 class RecipeForm(Form):
     title = StringField('Title', [validators.InputRequired(message="Cannot be empty")])
     time_needed = IntegerField('Time needed (min)', [validators.InputRequired(message="Cannot be empty")])

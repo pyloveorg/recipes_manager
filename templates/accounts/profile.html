@@ -1,0 +1,41 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'profile' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="title col-md-3">
+            <h3>Your profile</h3>
+        </div>
+    </div>
+    <div class="row email">
+        <div class="email col-md-3">
+            Email: {{ current_user.email }}
+        </div>
+    </div>
+    <div class="password">
+        <div class="password col-md-3">
+            <a href="/profile/edit"><div class="btn btn-primary">Change password</div></a>
+        </div>
+    </div>
+    <div class="row subscription_status">
+        <div class="subscription_status col-md-4">
+            Subscription status: Active/Inactive
+        </div>
+    </div>
+    <div class="subscribe">
+        <div class="subscribe col-md-3">
+            <div class="btn btn-primary ">Subscribe</div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row subscription_history">
+        <div class="subscription_history col-md-5">
+            <h3>Payment history</h3>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

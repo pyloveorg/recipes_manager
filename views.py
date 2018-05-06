@@ -6,7 +6,7 @@ from main import bcrypt
 from main import lm
 from models import User
 from flask_login import current_user, login_user, logout_user, login_required
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, EditProfileForm
 
 @app.route('/', methods=['GET', 'POST'])
 def default():
@@ -65,10 +65,30 @@ def logout():
     flash('Logged out successfully.', 'success')
     return redirect(url_for('all_recipes'))
 
+
 @app.route('/secret', methods=['GET'])
 @login_required
 def secret():
     return render_template('secret.html')
+
+
+@app.route('/profile', methods=['GET'])
+@login_required
+def profile():
+    return render_template('accounts/profile.html')
+
+
+@app.route('/profile/edit', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm(request.form)
+    if request.method == 'GET':
+        return render_template('accounts/edit_profile.html', form=form)
+    if form.validate():
+        pass
+    flash('Please fill in all the fields', 'danger')
+    return render_template('accounts/edit_profile.html', form=form)
+
 
 @lm.user_loader
 def load_user(user_id):

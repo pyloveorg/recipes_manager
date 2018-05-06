@@ -1,0 +1,37 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'edit_profile' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-2"></div>
+
+    <div class="col-8">
+        <h3>Edit profile</h3>
+        <form action="{{ url_for('edit_profile') }}" method="post">
+            <div class="form-group">
+                <div>{{ form.current_password.label }}: {{ form.current_password(class="form-control") }}</div>
+                {% if form.current_password.errors %}
+                <ul class="errors">{% for error in form.current_password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <div>{{ form.new_password.label }}: {{ form.new_password(class="form-control") }}</div>
+                {% if form.new_password.errors %}
+                <ul class="errors">{% for error in form.new_password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <div>{{ form.confirm.label }}: {{ form.confirm(class="form-control") }}</div><br />
+                {% if form.confirm.errors %}
+                <ul class="errors">{% for error in form.confirm.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Update password</button>
+        </form>
+    </div>
+
+    <div class="col-2"></div>
+</div>
+{% endblock %}
