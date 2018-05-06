@@ -129,7 +129,7 @@ def search():
     searchform = SearchForm(request.form)
     if request.method == 'POST' and searchform.validate():
         return redirect((url_for('search_results', query=searchform.search.data)))
-    flash('No search results, showing you all recipes instead', 'info')
+    flash('You didn\'t input any query, showing you all recipes instead', 'info')
     return redirect((url_for('all_recipes')))
 
 @app.route('/search_results/<query>', methods=['GET'])
@@ -137,7 +137,9 @@ def search_results(query):
     results = Recipe.query\
         .filter(or_(Recipe.is_public == True, Recipe.user == current_user))\
         .filter(Recipe.title.contains(query))
-    if results:
+    if results.count() > 0 :
         return render_template('search.html', query=query, recipes=results)
-    flash('No search results, showing you all recipes instead', 'info')
+    elif results.count() == 0:
+        return render_template('search.html', query=query, recipes=results)
+    flash('Something went wrong, showing you all recipes instead', 'info')
     return render_template('search.html', query=query, recipes=results)
