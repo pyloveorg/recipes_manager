@@ -9,7 +9,7 @@ from sqlalchemy import or_
 
 @app.route('/all_recipes', methods=['GET'])
 def all_recipes():
-    recipes = Recipe.query.filter_by(is_public=True).order_by(Recipe.id.desc()).all()
+    recipes = Recipe.query.filter_by(status='Public').order_by(Recipe.id.desc()).all()
     return render_template('recipes/all_recipes.html', recipes=recipes)
 
 
@@ -27,14 +27,14 @@ def new_recipe():
         return render_template('recipes/new.html', form=form)
     if form.validate():
         # https://stackoverflow.com/questions/33429510/wtforms-selectfield-not-properly-coercing-for-booleans fuck
-        if form.is_public.data == '':
-            form.is_public.data = False
+        if form.status.data == '':
+            form.status.data = False
         recipe = Recipe(
             title=form.title.data,
             ingredients=form.ingredients.data,
             time_needed=form.time_needed.data,
             steps=form.steps.data,
-            is_public=form.is_public.data,
+            status=form.status.data,
             user_id=current_user.id)
         db.session.add(recipe)
         db.session.commit()
@@ -65,15 +65,10 @@ def edit_recipe(recipe_id):
         recipe.ingredients = form.ingredients.data
         recipe.time_needed = form.time_needed.data
         recipe.steps = form.steps.data
-        recipe.is_public = bool(form.is_public.data)
+        recipe.status = form.status.data
         db.session.commit()
         flash('Recipe edited successfully', 'success')
         return redirect(url_for('my_recipes'))
-    # This below is because of boolean vs string conversion. By default, values for radio buttons are strings.
-    # If recipe was private, it was '' converted to boolean, but False cannot be converted to ''.
-    if recipe.is_public == False:
-        form.is_public.default = ''
-        form.process()
     # I need to set the values for ingredients and steps, because they're from textarea, and that
     # doesn't support value for field.
     form.ingredients.data = recipe.ingredients
@@ -135,7 +130,7 @@ def search():
 @app.route('/search_results/<query>', methods=['GET'])
 def search_results(query):
     results = Recipe.query\
-        .filter(or_(Recipe.is_public == True, Recipe.user == current_user))\
+        .filter(or_(Recipe.status == 'Public', Recipe.user == current_user))\
         .filter(Recipe.title.contains(query))
     if results.count() > 0 :
         return render_template('search.html', query=query, recipes=results)

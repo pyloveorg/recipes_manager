@@ -48,7 +48,7 @@ class Recipe(db.Model):
     ingredients = Column(String(5000), default='')
     # ingredients = Column(JSON, default='')
     steps = Column(String(5000), default='')
-    is_public = Column(Boolean, default=True)
+    status = Column(String, default='Public', nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     votes = relationship('Vote', backref='recipe', cascade='delete', lazy=True)
     average_score = Column(Float)
