@@ -1,10 +1,5 @@
 {% extends "_base.html" %}
 
-{% block body %}
-    <div>
-        {{ render_form(url_for('search'), form) }}
-    </div>
-{% endblock %}
 {% block content %}
 <h1>Search Results for {{ query }}</h1>
 

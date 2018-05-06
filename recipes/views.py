@@ -60,7 +60,7 @@ def show_recipe(recipe_id):
 def edit_recipe(recipe_id):
     form = RecipeForm(request.form)
     recipe = Recipe.query.filter_by(id=recipe_id).first_or_404()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         recipe.title = form.title.data
         recipe.ingredients = form.ingredients.data
         recipe.time_needed = form.time_needed.data
@@ -127,8 +127,7 @@ def inject_searchform():
 @app.route('/search', methods=['GET','POST'])
 def search():
     searchform = SearchForm(request.form)
-    # why searchform.validate() doesn't work?
-    if request.method == 'POST' and searchform.search.data:
+    if request.method == 'POST' and searchform.validate():
         return redirect((url_for('search_results', query=searchform.search.data)))
     flash('No search results, showing you all recipes instead', 'info')
     return redirect((url_for('all_recipes')))
