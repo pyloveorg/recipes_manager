@@ -130,7 +130,7 @@ def search():
 @app.route('/search_results/<query>', methods=['GET'])
 def search_results(query):
     results = Recipe.query\
-        .filter(or_(Recipe.status == 'Public', Recipe.user == current_user))\
+        .filter(or_(Recipe.status == 'Public', Recipe.user_id == current_user.get_id()))\
         .filter(Recipe.title.contains(query))
     if results.count() > 0 :
         return render_template('search.html', query=query, recipes=results)
