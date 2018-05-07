@@ -43,7 +43,7 @@ class Recipe(db.Model):
     """
     __tablename__ = 'recipe'
     id = Column(Integer, autoincrement=True, primary_key=True)
-    date_added = Column(DateTime, default=datetime.now())
+    date_added = Column(DateTime, default=datetime.now)
     title = Column(String(250), default='')
     time_needed = Column(Integer, default=15)
     ingredients = Column(String(5000), default='')
