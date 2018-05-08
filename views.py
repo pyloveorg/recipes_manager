@@ -11,7 +11,7 @@ from forms import RegistrationForm, LoginForm
 @app.route('/', methods=['GET'])
 def index():
     top_recipes = Recipe.query \
-        .filter(Recipe.is_public == True, Recipe.average_score != None) \
+        .filter(Recipe.status == "Public", Recipe.average_score != None) \
         .order_by(Recipe.average_score.desc(), Recipe.title.asc()) \
         .limit(10) \
         .all()
@@ -19,13 +19,13 @@ def index():
     top_ids = [recipe.id for recipe in top_recipes]
 
     worst_recipes = Recipe.query\
-        .filter(Recipe.is_public==True, Recipe.average_score!=None, Recipe.id.notin_(top_ids))\
+        .filter(Recipe.status == "Public", Recipe.average_score!=None, Recipe.id.notin_(top_ids))\
         .order_by(Recipe.average_score.asc(), Recipe.title.asc())\
         .limit(10)\
         .all()
 
     latest_recipes = Recipe.query\
-        .filter(Recipe.is_public==True, Recipe.date_added!=None)\
+        .filter(Recipe.status == "Public", Recipe.date_added!=None)\
         .order_by(Recipe.date_added.desc(), Recipe.title.asc())\
         .limit(10)\
         .all()
