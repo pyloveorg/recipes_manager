@@ -40,13 +40,15 @@ class Recipe(db.Model):
     Recipe Model
     """
     __tablename__ = 'recipe'
+    __searchable__ = ['title']
+
     id = Column(Integer, autoincrement=True, primary_key=True)
     title = Column(String(250), default='')
     time_needed = Column(Integer, default=15)
     ingredients = Column(String(5000), default='')
     # ingredients = Column(JSON, default='')
     steps = Column(String(5000), default='')
-    is_public = Column(Boolean, default=True)
+    status = Column(String, default='Public', nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     votes = relationship('Vote', backref='recipe', cascade='delete', lazy=True)
     average_score = Column(Float)

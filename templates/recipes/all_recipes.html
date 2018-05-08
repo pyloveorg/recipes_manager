@@ -10,6 +10,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Title</th>
+      <th scope="col">Status</th>
       <th scope="col">Average score</th>
       <th scope="col">Private/Public</th>
       <th scope="col">Author</th>
@@ -22,13 +23,7 @@
       <th scope="row">{{ loop.index }}</th>
       <td>{{ recipe.title }}</td>
       <td>{{ recipe.average_score }}</td>
-      <td>
-        {% if recipe.is_public == True: %}
-        Public
-        {% else: %}
-        Private
-        {% endif %}
-      </td>
+      <td>{{ recipe.status }}</td>
       <td>{{ recipe.user.email }}</td>
       <td>
         <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">Show</a>
