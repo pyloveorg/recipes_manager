@@ -1,7 +1,9 @@
 from wtforms import Form, StringField, IntegerField, PasswordField, RadioField, validators, TextAreaField
 
 class RegistrationForm(Form):
-    email = StringField('Email Address', [validators.Email(message="Email is not valid"), validators.InputRequired(message="Cannot be empty")])
+    email = StringField('Email Address', [
+        validators.Email(message="Email is not valid"),
+        validators.InputRequired(message="Cannot be empty")])
     password = PasswordField('Password', [
         validators.Length(min=8, message='Password too short'),
         validators.InputRequired(message="Cannot be empty"),
@@ -19,7 +21,10 @@ class RecipeForm(Form):
     ingredients = TextAreaField('Ingredients', [validators.InputRequired(message="Cannot be empty")])
     steps = TextAreaField('Steps', [validators.InputRequired(message="Cannot be empty")])
     # False has to be an empty string, because in Python a string is always true.
-    is_public = RadioField('Status', choices=[(True, 'Public'), ('', 'Private')], default=True)
+    status = RadioField('Status', choices=[('Public', 'Public'), ('Private', 'Private')], default='Public')
+
+class SearchForm(Form):
+    search = StringField('Search', [validators.InputRequired(message="Cannot be empty")])
 
 class VoteForm(Form):
     value = RadioField(
@@ -30,4 +35,3 @@ class VoteForm(Form):
         ],
         choices=[('1','1'),('2','2'),('3','3'),('4','4'),('5','5')]
     )
-
