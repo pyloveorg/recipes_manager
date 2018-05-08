@@ -4,13 +4,32 @@ from flask import request, redirect, flash, url_for, render_template
 from main import app, db
 from main import bcrypt
 from main import lm
-from models import User
+from models import User, Recipe
 from flask_login import current_user, login_user, logout_user, login_required
 from forms import RegistrationForm, LoginForm
 
-@app.route('/', methods=['GET', 'POST'])
-def default():
-    return redirect(url_for('all_recipes'))
+@app.route('/', methods=['GET'])
+def index():
+    top_recipes = Recipe.query \
+        .filter(Recipe.status == "Public", Recipe.average_score != None) \
+        .order_by(Recipe.average_score.desc(), Recipe.title.asc()) \
+        .limit(10) \
+        .all()
+
+    top_ids = [recipe.id for recipe in top_recipes]
+
+    worst_recipes = Recipe.query\
+        .filter(Recipe.status == "Public", Recipe.average_score!=None, Recipe.id.notin_(top_ids))\
+        .order_by(Recipe.average_score.asc(), Recipe.title.asc())\
+        .limit(10)\
+        .all()
+
+    latest_recipes = Recipe.query\
+        .filter(Recipe.status == "Public", Recipe.date_added!=None)\
+        .order_by(Recipe.date_added.desc(), Recipe.title.asc())\
+        .limit(10)\
+        .all()
+    return render_template('index.html', top_recipes=top_recipes, worst_recipes=worst_recipes, latest_recipes=latest_recipes)
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():

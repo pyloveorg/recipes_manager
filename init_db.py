@@ -41,7 +41,7 @@ def db_start():
         steps="some steps",
         status='Public',
         user_id=user.id,
-        average_score=None
+        average_score=5.0
     )
     recipe3 = models.Recipe(
         title="Private recipe user2",
@@ -59,7 +59,7 @@ def db_start():
         steps="some steps",
         status='Public',
         user_id=user2.id,
-        average_score=None
+        average_score=3.0
     )
     db.session.add(recipe)
     db.session.add(recipe2)

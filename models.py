@@ -1,11 +1,13 @@
 __author__ = 'Piotr Dyba'
 
+from datetime import datetime
+
 from flask_login import UserMixin
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
-from sqlalchemy.types import Integer, String, Boolean, JSON, Float
+from sqlalchemy.types import Integer, String, Boolean, JSON, Float, DateTime
 
 from main import db
 
@@ -43,6 +45,7 @@ class Recipe(db.Model):
     __searchable__ = ['title']
 
     id = Column(Integer, autoincrement=True, primary_key=True)
+    date_added = Column(DateTime, default=datetime.now)
     title = Column(String(250), default='')
     time_needed = Column(Integer, default=15)
     ingredients = Column(String(5000), default='')
