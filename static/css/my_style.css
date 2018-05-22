@@ -1,3 +1,113 @@
+body {
+    background-color: #cc8d4a;
+}
+
+.navbar-brand {
+    font: 400 25px/0.8 'Cookie', Helvetica, sans-serif;
+}
+
+.navbar-nav {
+    font: 400 25px/0.8 'Cookie', Helvetica, sans-serif;
+}
+
+a:hover {
+}
+
+a:visited {
+    color: green;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.errors {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    color: red;
+}
+
+form {
+    border: 2px solid grey;
+    border-radius: 5px;
+}
+
+.form-group {
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+
+h3 {
+    text-align: center;
+    font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 30px;
+    margin-top: 20px;
+    margin: 15px;
+}
+
+button {
+    margin: 10px;
+    font: 400 30px/0.8 'Cookie', Helvetica, sans-serif;
+}
+
+.navbar{
+            backgroung-color: #4e1703;
+}
+
+.btn {
+    background-color: #173742;
+    font: 400 30px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 20px;
+    margin: 10px;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: .375rem .75rem;
+}
+
+        .btn:hover {
+            background-color: #0f1720;
+        }
+
+        .navbar-expand-md{
+            background-color: #0f1720;
+        }
+
+        .errors {
+            padding-top: 1px;
+            padding-bottom: 1px;
+            color: red;
+        }
+
+        form {
+            border: 2px solid #4e1703;
+            border-radius: 5px;
+            background-color: #cc8d4a;
+        }
+
+        .form-group {
+            padding: 12px 20px;
+            margin: 8px 0;
+        }
+
+        h3 {
+            text-align: center;
+            font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+            font-size: 50px;
+            margin-top: 20px;
+            margin: 15px;
+            color: #4e1703;
+        }
+
+        input[type=submit]:hover {
+            background-color: #4e1703;
+        }
+
+        label {
+            font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+            font-size: 30px;
+            color: #4e1703;
+        }
 .xxx {
    max-width: 65.5rem;
    margin: auto;
