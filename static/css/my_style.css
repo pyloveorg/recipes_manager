@@ -1,3 +1,124 @@
+body {
+    background-color: #ecc78d;
+    font: 400 25px/0.8 'Cookie', Helvetica, sans-serif;
+}
+
+h1 {
+    text-align: left;
+    font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 50px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin: 15px;
+    color: #2e0a05;
+    font-weight: bold;
+}
+
+h2 {
+    text-align: left;
+    font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 40px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin: 15px;
+    color: #2e0a05;
+    font-weight: bold;
+}
+
+h3 {
+    text-align: center;
+    font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 30px;
+    margin-top: 20px;
+    margin: 15px;
+    color: #2e0a05;
+    font-weight: bold;
+}
+
+a {
+    color: d0dfe4;
+}
+
+a:hover {
+    color: 33575b;
+}
+
+
+ul, li, th, tr, td {
+    font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 28px;
+    margin-top: 10px;
+    margin-left: 30px
+    margin: 15px;
+    color: #2e0a05;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.errors {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-top: 2px;
+    margin-button 2px;
+    color: #FF0000;
+    font-size: 15px;
+}
+
+form {
+    border: 2px solid #ad6a1d;
+    border-radius: 5px;
+    background-color: #cc8d4a;
+}
+
+.form-group {
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+
+label {
+    font: 400 130px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 30px;
+    color: #2e0a05;
+}
+
+button {
+    margin: 10px;
+    font: 400 30px/0.8 'Cookie', Helvetica, sans-serif;
+}
+
+.btn {
+    background-color: #173742;
+    font: 400 30px/0.8 'Cookie', Helvetica, sans-serif;
+    font-size: 20px;
+    margin: 10px;
+    border: none;
+    color: #000000;
+    text-align: center;
+    padding: .375rem .75rem;
+}
+
+.btn:hover {
+    background-color: #0f1720;
+}
+
+.navbar{
+            backgroung-color: #33575b;
+}
+
+.navbar-brand {
+    font: 400 25px/0.8 'Cookie', Helvetica, sans-serif;
+}
+
+.navbar-nav {
+    font: 400 25px/0.8 'Cookie', Helvetica, sans-serif;
+}
+
+.navbar-expand-md{
+    background-color: #0f1720;
+}
+
 .xxx {
    max-width: 65.5rem;
    margin: auto;
