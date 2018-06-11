@@ -1,1 +1,6 @@
-'myvenv' 
+.idea
+*.db
+__pycache__/
+*.py[cod]
+*$py.class
+venv
