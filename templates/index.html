@@ -1,0 +1,47 @@
+{% extends "_base.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <h3>Top 10 Recipes</h3>
+      {% if top_recipes %}
+        <ol>
+        {% for recipe in top_recipes %}
+        <li>
+          <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a> {{ recipe.average_score }}
+        </li>
+        {% endfor %}
+        </ol>
+      {% else: %}
+        <p>There are no recipes with scores</p>
+      {% endif %}
+
+      <h3>Bottom 10 Recipes</h3>
+      {% if worst_recipes %}
+        <ol>
+        {% for recipe in worst_recipes %}
+        <li>
+          <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a> {{ recipe.average_score }}
+        </li>
+        {% endfor %}
+        </ol>
+      {% else: %}
+        <p>There are not enough recipies</p>
+      {% endif %}
+
+      <h3>Latest Recipes</h3>
+      {% if latest_recipes %}
+        <ol>
+        {% for recipe in latest_recipes %}
+        <li>
+          <a href="{{ url_for('show_recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a> {{ recipe.date_added.strftime('%Y-%m-%d at %H:%M') }}
+        </li>
+        {% endfor %}
+        </ol>
+      {% else: %}
+        <p>There are no timestamped recipes</p>
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock %}

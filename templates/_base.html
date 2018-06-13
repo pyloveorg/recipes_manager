@@ -6,12 +6,13 @@
  <link rel="stylesheet" type="text/css" href="/static/css/my_style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/my_style.css') }}">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">PyLove - Recipes Manager</a>
+        <a class="navbar-brand" href="{{ url_for('index') }}">PyLove - Recipes Manager</a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -33,6 +34,22 @@
             </li>
 
             {% endif %}
+            <li class="nav-item">
+                <form action="{{ url_for('search') }}" method="post">
+                    <div class="form-group search">
+                        <div>
+                            <ul>
+                                <li>{{ searchform.search(class="form-control") }} </li>
+                                <li><button type="submit" class="btn btn-primary">Search</button></li>
+                            </ul>
+                        </div>
+                        {% if searchform.search.errors %}
+                        <ul class="errors">{% for error in searchform.search.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                        {% endif %}
+
+                    </div>
+                </form>
+            </li>
         </ul>
         <ul class="navbar-nav">
             {% if current_user.is_authenticated %}

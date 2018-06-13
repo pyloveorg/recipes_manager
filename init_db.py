@@ -30,7 +30,7 @@ def db_start():
         ingredients="Some ingredients",
         time_needed=15,
         steps="some steps",
-        is_public=False,
+        status='Private',
         user_id=user.id,
         average_score=None
     )
@@ -39,16 +39,16 @@ def db_start():
         ingredients="Some ingredients",
         time_needed=15,
         steps="some steps",
-        is_public=True,
+        status='Public',
         user_id=user.id,
-        average_score=None
+        average_score=5.0
     )
     recipe3 = models.Recipe(
         title="Private recipe user2",
         ingredients="Some ingredients",
         time_needed=15,
         steps="some steps",
-        is_public=False,
+        status='Private',
         user_id=user2.id,
         average_score=None
     )
@@ -57,9 +57,9 @@ def db_start():
         ingredients="Some ingredients",
         time_needed=15,
         steps="some steps",
-        is_public=True,
+        status='Public',
         user_id=user2.id,
-        average_score=None
+        average_score=3.0
     )
     db.session.add(recipe)
     db.session.add(recipe2)
@@ -70,7 +70,7 @@ def db_start():
     vote1 = models.Vote(
         value = 1,
         user_id = user.id,
-        recipe_id = recipe.id
+        recipe_id = recipe3.id
    )
     db.session.add(vote1)
     db.session.commit()
